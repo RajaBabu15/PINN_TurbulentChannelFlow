@@ -1,0 +1,46 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Website:  https://openfoam.org                  |
+|   \\  /    A nd           | Version:  12                                    |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      epsilon;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -3 0 0 0 0]; // m^2/s^3
+
+// Corrected internalField based on inlet k=0.00375, l=0.07, Cmu=0.09
+// eps_in = Cmu^(3/4) * k_in^(3/2) / l approx 0.000498
+internalField   uniform 0.000498;
+
+boundaryField
+{
+    inlet
+    {
+        type            turbulentMixingLengthDissipationRateInlet;
+        mixingLength    0.07;           // Turbulent length scale (0.07*h, h=1.0)
+        value           $internalField; // Use internal field as initial guess
+    }
+    outlet
+    {
+        type            zeroGradient; // Standard outflow condition
+    }
+    "(bottomWall|topWall)" // Matches blockMeshDict wall names
+    {
+        type            epsilonWallFunction; // Standard epsilon wall function
+        value           $internalField;      // Value calculated by WF
+    }
+    frontAndBack // For 2D cases
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //

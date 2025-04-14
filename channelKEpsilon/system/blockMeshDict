@@ -1,0 +1,120 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Website:  https://openfoam.org                  |
+|   \\  /    A nd           | Version:  12                                    |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1.0;
+
+// Channel dimensions L=10, H=2 (y=-1 to 1), W=0.1 (quasi-2D)
+vertices
+(
+    // Bottom Block Vertices (y = -1 to 0)
+    (0 -1   0)      // 0 Front Bottom Left
+    (10 -1  0)      // 1 Front Bottom Right
+    (10  0   0)      // 2 Front Mid Right
+    (0  0   0)      // 3 Front Mid Left
+
+    // Top Block Vertices (y = 0 to 1) - Reuse 2 & 3
+    (10  1   0)      // 4 Front Top Right
+    (0  1   0)      // 5 Front Top Left
+
+    // Back Vertices (z = 0.1) - corresponding order
+    (0 -1   0.1)     // 6 Back Bottom Left
+    (10 -1  0.1)     // 7 Back Bottom Right
+    (10  0   0.1)     // 8 Back Mid Right
+    (0  0   0.1)     // 9 Back Mid Left
+    (10  1   0.1)     // 10 Back Top Right
+    (0  1   0.1)     // 11 Back Top Left
+);
+
+blocks
+(
+    // Bottom Block (y = -1 to 0)
+    // hex (v0 v1 v2 v3 v6 v7 v8 v9) (nx ny nz) simpleGrading (gx gy gz)
+    // Increased resolution: nx=200, ny=50 (per block), nz=1
+    hex (0 1 2 3 6 7 8 9) (200 50 1) simpleGrading
+        (
+            1           // Gx - Uniform in x
+            10          // Gy - Ratio Last/First cell. y goes -1 to 0. Cell at y=0 is 10x bigger than cell at y=-1. (Refines towards y=-1 wall)
+                        // Check y+ after run. May need adjustment (e.g., 8).
+            1           // Gz - Uniform in z
+        )
+
+    // Top Block (y = 0 to 1)
+    // hex (v3 v2 v4 v5 v9 v8 v10 v11) (nx ny nz) simpleGrading (gx gy gz)
+    // Increased resolution: nx=200, ny=50 (per block), nz=1
+    hex (3 2 4 5 9 8 10 11) (200 50 1) simpleGrading
+        (
+            1           // Gx - Uniform in x
+            0.1         // Gy - Ratio Last/First cell. y goes 0 to 1. Cell at y=1 is 0.1x size of cell at y=0. (Refines towards y=1 wall). Must be inverse of bottom block Gy.
+            1           // Gz - Uniform in z
+        )
+);
+
+edges
+(
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 3 9 6)   // Bottom block inlet face
+            (3 5 11 9)  // Top block inlet face
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (1 2 8 7)   // Bottom block outlet face
+            (2 4 10 8)  // Top block outlet face
+        );
+    }
+    bottomWall // Use specific names matching 0/ BC patterns
+    {
+        type wall;     // Use 'wall' type for physical walls needing wall functions
+        faces
+        (
+            (0 1 7 6)   // Face at y = -1
+        );
+    }
+    topWall // Use specific names matching 0/ BC patterns
+    {
+        type wall;
+        faces
+        (
+            (5 4 10 11) // Face at y = +1
+        );
+    }
+    frontAndBack // Name matches 0/ BCs
+    {
+        type empty;    // Essential for 2D/quasi-2D
+        faces
+        (
+            (0 1 2 3)   // Front face bottom block
+            (3 2 4 5)   // Front face top block
+            (6 7 8 9)   // Back face bottom block
+            (9 8 10 11) // Back face top block
+        );
+    }
+);
+
+// mergePatchPairs section is not needed for this block structure
+
+// ************************************************************************* //

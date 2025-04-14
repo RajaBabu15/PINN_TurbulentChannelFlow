@@ -1,0 +1,100 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Website:  https://openfoam.org                  |
+|   \\  /    A nd           | Version:  12                                    |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     simpleFoam; // Steady-state incompressible solver
+
+startFrom       startTime;
+startTime       0;
+
+stopAt          endTime;
+endTime         1000; // Adjust as needed for convergence
+
+deltaT          1; // Notional timestep for steady-state
+
+writeControl    timeStep;
+writeInterval   100; // Frequency of writing results
+
+purgeWrite      0; // Keep all written time steps
+
+writeFormat     ascii;
+writePrecision  6;
+writeCompression off;
+
+timeFormat      general;
+timePrecision   6;
+
+runTimeModifiable yes; // Allow parameters to be changed while running
+
+// In-situ post-processing using function objects
+functions
+{
+    samplingSets // Function object for sampling data
+    {
+        // Essential information for function objects
+        type            sets; // Type of function object
+        functionObjectLibs ("libsampling.so"); // Library needed
+
+        // Control when sampling occurs
+        writeControl    outputTime; // Sample at write intervals
+
+        // Sampling parameters
+        interpolationScheme cellPoint; // Interpolation method
+        setFormat           csv; // Output format (e.g., raw xy data)
+
+        // Define the sets (lines, points, surfaces) to sample
+        sets
+        (
+            midLine_y // Sample along y at mid-channel (x=L/2)
+            {
+                type        lineUniform; // Sample along a line
+                axis        y; // Sample points vary in y-direction
+                start       (5 -1 0.05); // Start point (x=L/2, y=-h, z=mid)
+                end         (5  1 0.05); // End point   (x=L/2, y=+h, z=mid)
+                nPoints     101; // Number of points to sample along the line
+            }
+            // Add more sets here if needed, e.g., centerline pressure:
+            // centerLine_x
+            // {
+            //     type        lineUniform;
+            //     axis        x;
+            //     start       (0 0 0.05);
+            //     end         (10 0 0.05);
+            //     nPoints     201;
+            // }
+        );
+
+        // Specify the fields to sample on the defined sets
+        fields
+        (
+            U
+            p       // Kinematic pressure
+            k
+            epsilon
+            nut
+        );
+    };
+
+    // Add other function objects below if desired (e.g., yPlusRAS)
+    // yPlusRAS
+    // {
+    //     type            yPlusRAS;
+    //     functionObjectLibs ("libfieldFunctionObjects.so");
+    //     writeControl    timeStep;
+    //     writeInterval   100;
+    // };
+}
+
+// ************************************************************************* //

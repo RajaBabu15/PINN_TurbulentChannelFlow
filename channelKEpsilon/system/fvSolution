@@ -1,0 +1,120 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Website:  https://openfoam.org                  |
+|   \\  /    A nd           | Version:  12                                    |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers // Linear solvers for matrix equations
+{
+    p // Solver for pressure correction (within SIMPLE loop)
+    {
+        solver          GAMG; // Geometric Algebraic Multi-Grid (efficient)
+        tolerance       1e-06; // Solver tolerance
+        relTol          0.05;  // Relative tolerance (used if relaxation < 1)
+        smoother        GaussSeidel; // Smoother for GAMG levels
+        nPreSweeps      0;
+        nPostSweeps     2;
+        cacheAgglomeration true;
+        agglomerator    faceAreaPair;
+        nCellsInCoarsestLevel 10;
+        mergeLevels     1;
+    }
+
+    U // Solver for momentum predictor
+    {
+        solver          smoothSolver; // Simple iterative solver
+        smoother        GaussSeidel;
+        tolerance       1e-05;
+        relTol          0.1; // Relative tolerance
+        nSweeps         1;
+    }
+
+    k // Solver for TKE
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-06; // Tighter tolerance for turbulence often helps
+        relTol          0.1;
+        nSweeps         1;
+    }
+
+    epsilon // Solver for TKE Dissipation
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-06; // Tighter tolerance
+        relTol          0.1;
+        nSweeps         1;
+    }
+
+    // --- Final solvers required when relaxationFactors < 1 ---
+    pFinal // Final pressure solver (no relaxation)
+    {
+        $p; // Inherit settings from p solver above
+        relTol          0;  // No relative tolerance reduction on final step
+    }
+
+    UFinal // Final momentum solver
+    {
+        $U; // Inherit settings from U solver above
+        relTol          0;
+    }
+
+    kFinal // Final k solver
+    {
+        $k; // Inherit settings from k solver above
+        relTol          0;
+    }
+
+    epsilonFinal // Final epsilon solver
+    {
+        $epsilon; // Inherit settings from epsilon solver above
+        relTol          0;
+    }
+    // --- End final solvers ---
+}
+
+// SIMPLE algorithm control (used by simpleFoam)
+// Note: OpenFOAM often uses PIMPLE dictionary even for simpleFoam
+PIMPLE
+{
+    nOuterCorrectors    1; // Not really used by simpleFoam, but needs entry
+    nCorrectors         1; // Use 1 for SIMPLE algorithm behavior
+    nNonOrthogonalCorrectors 0; // No extra non-orthogonal corrections initially
+    pRefCell            0; // Reference cell index for pressure
+    pRefValue           0; // Reference pressure value
+
+    // Residual control for steady-state convergence:
+    residualControl
+    {
+        U               1e-5; // Residual target for U momentum
+        p               1e-5; // Residual target for p' continuity
+        "(k|epsilon)"   1e-6; // Residual target for k and epsilon transport
+    }
+}
+
+relaxationFactors // Under-relaxation factors for stability
+{
+    fields // Relaxation on field values (usually only p for SIMPLE)
+    {
+        p               0.3; // Pressure relaxation
+    }
+    equations // Relaxation on matrix diagonals
+    {
+        U               0.7; // Momentum relaxation
+        k               0.7; // TKE relaxation
+        epsilon         0.7; // Dissipation relaxation
+    }
+}
+
+// ************************************************************************* //

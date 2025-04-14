@@ -1,0 +1,63 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Website:  https://openfoam.org                  |
+|   \\  /    A nd           | Version:  12                                    |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes // Time derivative schemes
+{
+    default         steadyState; // Correct for simpleFoam
+}
+
+gradSchemes // Gradient calculation schemes
+{
+    default         Gauss linear; // Standard second-order scheme
+    grad(p)         Gauss linear;
+}
+
+divSchemes // Divergence (convection) term schemes
+{
+    default         none; // Must specify per field/term
+
+    // Use bounded second-order schemes for stability in turbulent flow
+    div(phi,U)      Gauss limitedLinear 1; // Good bounded scheme for momentum
+    // Alternative: Gauss linearUpwindV grad(U);
+    div(phi,k)      Gauss limitedLinear 1; // Bounded scheme for k
+    div(phi,epsilon) Gauss limitedLinear 1; // Bounded scheme for epsilon
+
+    // Scheme for the divergence of the turbulent stress tensor contribution
+    div((nuEff*dev2(T(grad(U))))) Gauss linear; // Standard linear scheme is usually okay here
+}
+
+laplacianSchemes // Laplacian (diffusion) term schemes
+{
+    default         Gauss linear corrected; // Add 'corrected' for robustness on non-orthogonal meshes (due to grading)
+}
+
+interpolationSchemes // Cell-to-face interpolation schemes
+{
+    default         linear; // Standard second-order interpolation
+}
+
+snGradSchemes // Surface-normal gradient schemes
+{
+    default         corrected; // Robust scheme for non-orthogonal meshes
+}
+
+fluxRequired // Specify fields requiring flux evaluation on boundaries
+{
+    default         no;
+    p               ; // Pressure flux is required by SIMPLE algorithm
+}
+
+// ************************************************************************* //

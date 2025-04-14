@@ -1,0 +1,179 @@
+2025-04-14 20:45:27 [INFO] Logging configured.
+2025-04-14 20:45:27 [INFO] ============================================================
+2025-04-14 20:45:27 [INFO]  PINN RANS k-epsilon PLOTTING Start 
+2025-04-14 20:45:27 [INFO] ============================================================
+2025-04-14 20:45:27 [INFO] ==================================================
+2025-04-14 20:45:27 [INFO] Plotting Configuration:
+2025-04-14 20:45:27 [INFO]   Output Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow
+2025-04-14 20:45:27 [INFO]   Model Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints
+2025-04-14 20:45:27 [INFO]   Plot Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow/plots
+2025-04-14 20:45:27 [INFO]   Ref Data File: /content/drive/MyDrive/PINN_RANS_ChannelFlow/data/reference_output_data.csv
+2025-04-14 20:45:27 [INFO]   Network Expected: 8 layers, 64 neurons
+2025-04-14 20:45:27 [INFO]   Prediction Grid Nx: 200, Ny: 100
+2025-04-14 20:45:27 [INFO] ==================================================
+2025-04-14 20:45:27 [INFO] Generated 400 anchor points for wall functions (needed for BC setup).
+2025-04-14 20:45:27 [INFO] Defined 10 boundary conditions for model structure.
+2025-04-14 20:45:27 [INFO] Building the PINN model structure...
+2025-04-14 20:45:27 [INFO] Using 400 anchor points in Data object.
+2025-04-14 20:45:27 [INFO] Model structure built successfully.
+2025-04-14 20:45:27 [INFO] Searching for checkpoints in: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints with pattern ^rans_channel_wf\-(\d+)\.pt$
+2025-04-14 20:45:27 [INFO] Found latest checkpoint to load: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints/rans_channel_wf-69000.pt at step 69000
+2025-04-14 20:45:27 [INFO] Compiling model structure (required before loading)...
+2025-04-14 20:45:27 [INFO] Model compiled.
+2025-04-14 20:45:27 [INFO] Loading weights from: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints/rans_channel_wf-69000.pt
+2025-04-14 20:45:27 [ERROR] A critical error occurred during model build or load: 'step'
+Traceback (most recent call last):
+  File "<ipython-input-9-17980f4d5f56>", line 1087, in <cell line: 0>
+    model_loaded.restore(restore_path, verbose=1) # ignore_hyperparameters=True)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/deepxde/model.py", line 1132, in restore
+    self.opt.load_state_dict(checkpoint["optimizer_state_dict"])
+  File "/usr/local/lib/python3.11/dist-packages/torch/_compile.py", line 32, in inner
+    return disable_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/torch/_dynamo/eval_frame.py", line 745, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/torch/optim/optimizer.py", line 934, in load_state_dict
+    self.__setstate__({"state": state, "param_groups": param_groups})
+  File "/usr/local/lib/python3.11/dist-packages/torch/optim/adam.py", line 123, in __setstate__
+    if len(p_state) != 0 and not torch.is_tensor(p_state["step"]):
+                                                 ~~~~~~~^^^^^^^^
+KeyError: 'step'
+2025-04-14 20:45:27 [ERROR] Model loading failed or model is invalid. Skipping post-processing.
+2025-04-14 20:45:27 [INFO] ============================================================
+2025-04-14 20:45:27 [INFO]  Script Execution (Plotting Only) Finished in 0.25 seconds
+2025-04-14 20:45:27 [INFO] ============================================================
+2025-04-14 20:47:09 [INFO] Google Drive already mounted.
+2025-04-14 20:47:09 [INFO] Output paths point to Google Drive: /content/drive/MyDrive/content/drive/MyDrive/PINN_RANS_ChannelFlow
+2025-04-14 20:47:09 [INFO] Setting up output directories...
+2025-04-14 20:47:09 [INFO] Output directories verified/created.
+2025-04-14 20:47:09 [INFO] Logging configured.
+2025-04-14 20:47:09 [INFO] ============================================================
+2025-04-14 20:47:09 [INFO]  PINN RANS k-epsilon PLOTTING Start 
+2025-04-14 20:47:09 [INFO] ============================================================
+2025-04-14 20:47:09 [INFO] ==================================================
+2025-04-14 20:47:09 [INFO] Plotting Configuration:
+2025-04-14 20:47:09 [INFO]   Output Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow
+2025-04-14 20:47:09 [INFO]   Model Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints
+2025-04-14 20:47:09 [INFO]   Plot Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow/plots
+2025-04-14 20:47:09 [INFO]   Ref Data File: /content/drive/MyDrive/PINN_RANS_ChannelFlow/data/reference_output_data.csv
+2025-04-14 20:47:09 [INFO]   Network Expected: 8 layers, 64 neurons
+2025-04-14 20:47:09 [INFO]   Prediction Grid Nx: 200, Ny: 100
+2025-04-14 20:47:09 [INFO] ==================================================
+2025-04-14 20:47:09 [INFO] Generated 400 anchor points for wall functions (needed for BC setup).
+2025-04-14 20:47:09 [INFO] Defined 10 boundary conditions for model structure.
+2025-04-14 20:47:09 [INFO] Building the PINN model structure...
+2025-04-14 20:47:09 [INFO] Using 400 anchor points in Data object.
+2025-04-14 20:47:09 [INFO] Model structure built successfully.
+2025-04-14 20:47:09 [INFO] Searching for checkpoints in: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints with pattern ^rans_channel_wf\-(\d+)\.pt$
+2025-04-14 20:47:09 [INFO] Found latest checkpoint to load: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints/rans_channel_wf-69000.pt at step 69000
+2025-04-14 20:47:09 [INFO] Compiling model structure (required before loading)...
+2025-04-14 20:47:09 [INFO] Model compiled.
+2025-04-14 20:47:09 [INFO] Loading weights from: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints/rans_channel_wf-69000.pt
+2025-04-14 20:47:09 [ERROR] A critical error occurred during model build or load: Model.restore() got an unexpected keyword argument 'ignore_hyperparameters'
+Traceback (most recent call last):
+  File "<ipython-input-10-474b4887d614>", line 1087, in <cell line: 0>
+    model_loaded.restore(restore_path, verbose=1, ignore_hyperparameters=True) # <--- ADDED ignore_hyperparameters=True
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.restore() got an unexpected keyword argument 'ignore_hyperparameters'
+2025-04-14 20:47:09 [ERROR] Model loading failed or model is invalid. Skipping post-processing.
+2025-04-14 20:47:09 [INFO] ============================================================
+2025-04-14 20:47:09 [INFO]  Script Execution (Plotting Only) Finished in 0.16 seconds
+2025-04-14 20:47:09 [INFO] ============================================================
+2025-04-14 20:48:57 [INFO] Google Drive already mounted.
+2025-04-14 20:48:57 [INFO] Output paths point to Google Drive: /content/drive/MyDrive/PINN_RANS_ChannelFlow
+2025-04-14 20:48:57 [INFO] Setting up output directories...
+2025-04-14 20:48:57 [INFO] Output directories verified/created.
+2025-04-14 20:48:57 [INFO] Logging configured.
+2025-04-14 20:48:57 [INFO] ============================================================
+2025-04-14 20:48:57 [INFO]  PINN RANS k-epsilon PLOTTING Start 
+2025-04-14 20:48:57 [INFO] ============================================================
+2025-04-14 20:48:57 [INFO] ==================================================
+2025-04-14 20:48:57 [INFO] Plotting Configuration:
+2025-04-14 20:48:57 [INFO]   Output Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow
+2025-04-14 20:48:57 [INFO]   Model Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints
+2025-04-14 20:48:57 [INFO]   Plot Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow/plots
+2025-04-14 20:48:57 [INFO]   Ref Data File: /content/drive/MyDrive/PINN_RANS_ChannelFlow/data/reference_output_data.csv
+2025-04-14 20:48:57 [INFO]   Network Expected: 8 layers, 64 neurons
+2025-04-14 20:48:57 [INFO]   Prediction Grid Nx: 200, Ny: 100
+2025-04-14 20:48:57 [INFO] ==================================================
+2025-04-14 20:48:57 [INFO] Generated 400 anchor points for wall functions (needed for BC setup).
+2025-04-14 20:48:57 [INFO] Defined 10 boundary conditions for model structure.
+2025-04-14 20:48:57 [INFO] Building the PINN model structure...
+2025-04-14 20:48:57 [INFO] Using 400 anchor points in Data object.
+2025-04-14 20:48:57 [INFO] Model structure built successfully.
+2025-04-14 20:48:57 [INFO] Searching for checkpoints in: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints with pattern ^rans_channel_wf\-(\d+)\.pt$
+2025-04-14 20:48:57 [INFO] Found latest checkpoint to load: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints/rans_channel_wf-69000.pt at step 69000
+2025-04-14 20:48:57 [INFO] Compiling model structure (required before loading)...
+2025-04-14 20:48:57 [INFO] Model compiled.
+2025-04-14 20:48:57 [INFO] Loading weights from: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints/rans_channel_wf-69000.pt
+2025-04-14 20:48:57 [ERROR] A critical error occurred during model build or load: Model.restore() got an unexpected keyword argument 'ignore_hyperparameters'
+Traceback (most recent call last):
+  File "<ipython-input-11-8ce4e97adc9c>", line 1064, in <cell line: 0>
+    model_loaded.restore(restore_path, verbose=1, ignore_hyperparameters=True)
+TypeError: Model.restore() got an unexpected keyword argument 'ignore_hyperparameters'
+2025-04-14 20:48:57 [ERROR] Model loading failed or model is invalid. Skipping post-processing.
+2025-04-14 20:48:57 [INFO] ============================================================
+2025-04-14 20:48:57 [INFO]  Script Execution (Plotting Only) Finished in 0.07 seconds
+2025-04-14 20:48:57 [INFO] ============================================================
+2025-04-14 20:50:54 [INFO] Google Drive already mounted.
+2025-04-14 20:50:54 [INFO] Output paths point to Google Drive: /content/drive/MyDrive/PINN_RANS_ChannelFlow
+2025-04-14 20:50:54 [INFO] Setting up output directories...
+2025-04-14 20:50:54 [INFO] Output directories verified/created.
+2025-04-14 20:50:54 [INFO] Logging configured.
+2025-04-14 20:50:54 [INFO] ============================================================
+2025-04-14 20:50:54 [INFO]  PINN RANS k-epsilon PLOTTING Start 
+2025-04-14 20:50:54 [INFO] ============================================================
+2025-04-14 20:50:54 [INFO] ==================================================
+2025-04-14 20:50:54 [INFO] Plotting Configuration:
+2025-04-14 20:50:54 [INFO]   Output Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow
+2025-04-14 20:50:54 [INFO]   Model Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints
+2025-04-14 20:50:54 [INFO]   Plot Directory: /content/drive/MyDrive/PINN_RANS_ChannelFlow/plots
+2025-04-14 20:50:54 [INFO]   Ref Data File: /content/drive/MyDrive/PINN_RANS_ChannelFlow/data/reference_output_data.csv
+2025-04-14 20:50:54 [INFO]   Network Expected: 8 layers, 64 neurons
+2025-04-14 20:50:54 [INFO]   Prediction Grid Nx: 200, Ny: 100
+2025-04-14 20:50:54 [INFO] ==================================================
+2025-04-14 20:50:54 [INFO] Generated 400 anchor points for wall functions (needed for BC setup).
+2025-04-14 20:50:54 [INFO] Defined 10 boundary conditions for model structure.
+2025-04-14 20:50:54 [INFO] Building the PINN model structure...
+2025-04-14 20:50:54 [INFO] Using 400 anchor points in Data object.
+2025-04-14 20:50:54 [INFO] Model structure built successfully.
+2025-04-14 20:50:54 [INFO] Searching for checkpoints in: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints with pattern ^rans_channel_wf\-(\d+)\.pt$
+2025-04-14 20:50:54 [INFO] Found latest checkpoint to load: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints/rans_channel_wf-69000.pt at step 69000
+2025-04-14 20:50:54 [INFO] Compiling model structure (recommended before prediction)...
+2025-04-14 20:50:54 [INFO] Model compiled.
+2025-04-14 20:50:54 [INFO] Manually loading network weights from: /content/drive/MyDrive/PINN_RANS_ChannelFlow/model_checkpoints/rans_channel_wf-69000.pt
+2025-04-14 20:50:54 [INFO] Loading checkpoint onto device: cuda
+2025-04-14 20:50:55 [INFO] Model weights restored manually from step 69000.
+2025-04-14 20:50:55 [INFO] Proceeding to post-processing (plotting).
+2025-04-14 20:50:55 [INFO] Plotter initialized. Plots will be saved in: /content/drive/MyDrive/PINN_RANS_ChannelFlow/plots
+2025-04-14 20:50:55 [INFO] Reference CSV data path found: /content/drive/MyDrive/PINN_RANS_ChannelFlow/data/reference_output_data.csv
+2025-04-14 20:50:55 [INFO] --- Starting Full Post-Processing (Plotting Only) ---
+2025-04-14 20:50:55 [INFO] Loss history or train state not available (likely loaded model). Skipping loss plot.
+2025-04-14 20:50:55 [INFO] Predicting PINN flow fields on evaluation grid...
+2025-04-14 20:50:55 [INFO] PINN field prediction and processing complete.
+2025-04-14 20:50:55 [INFO] Generating PINN contour plots...
+2025-04-14 20:50:59 [INFO] PINN contour field plots saved to pinn_field_contours.png
+2025-04-14 20:50:59 [INFO] Loading reference data from: /content/drive/MyDrive/PINN_RANS_ChannelFlow/data/reference_output_data.csv
+2025-04-14 20:50:59 [INFO] Loaded reference data: 414060 rows, 12 cols.
+2025-04-14 20:50:59 [INFO] Filtered for latest time/step (Time=1000): 41406 rows remaining.
+2025-04-14 20:50:59 [INFO] Identified coordinate columns: x='Points:0', y='Points:1', z='Points:2'
+2025-04-14 20:50:59 [INFO] Filtered for z-plane near 0.0 (actual: 0.0000): 20703 rows remaining.
+2025-04-14 20:50:59 [INFO] Renamed reference columns based on mapping. New columns: ['TimeStep', 'Time', 'x', 'y', 'z', 'u_ref', 'v_ref', 'U:2', 'eps_ref', 'k_ref', 'nut_ref', 'p_ref']
+2025-04-14 20:50:59 [INFO] Successfully loaded and preprocessed reference CSV data. Final columns: ['y', 'u_ref', 'eps_ref', 'p_ref', 'k_ref', 'nut_ref', 'z', 'v_ref', 'x']
+2025-04-14 20:50:59 [INFO] Proceeding with PINN vs Reference CSV comparisons...
+2025-04-14 20:50:59 [INFO] Generating profile comparison plots...
+2025-04-14 20:50:59 [INFO] Interpolating ref data at x=7.990...
+2025-04-14 20:51:06 [INFO] Profile comparison plot saved to profile_comparison_pinn_vs_csv.png
+2025-04-14 20:51:06 [INFO] Generating wall unit comparison plots...
+2025-04-14 20:51:06 [INFO] Estimated u_tau (pinn) at x=8.00 m: 0.0878 m/s (avg of top/bottom grad estimates)
+2025-04-14 20:51:08 [INFO] Estimated u_tau (reference) at x=8.00 m: 0.0825 m/s (avg of top/bottom grad estimates)
+2025-04-14 20:51:08 [INFO] Processed 2912 reference points for wall units.
+2025-04-14 20:51:10 [INFO] Wall unit comparison plots saved to profile_comparison_wall_units.png
+2025-04-14 20:51:10 [INFO] Generating centerline pressure gradient comparison plot...
+2025-04-14 20:51:10 [INFO] Pressure gradient comparison plot saved to pressure_gradient_comparison.png
+2025-04-14 20:51:10 [INFO] --- Post-Processing Finished ---
+2025-04-14 20:51:10 [INFO] ============================================================
+2025-04-14 20:51:10 [INFO]  Script Execution (Plotting Only) Finished in 15.84 seconds
+2025-04-14 20:51:10 [INFO] ============================================================

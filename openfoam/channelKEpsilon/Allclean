@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# OpenFOAM Allclean script
+# Cleans the case directory
+
+echo "Cleaning OpenFOAM case..."
+
+# Remove time directories (numerical results)
+rm -rf [0-9]* [0-9]*.[0-9]*
+
+# Remove processor directories (parallel decomposition)
+rm -rf processor*
+
+# Remove postProcessing directory
+rm -rf postProcessing
+
+# Remove mesh directory
+rm -rf constant/polyMesh
+
+# Remove log files
+rm -f log.*
+rm -f *.log
+
+# Remove other temporary files
+rm -rf dynamicCode
+rm -rf *.foam
+rm -f output_data.csv
+
+echo "Case cleaned successfully!"

@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  pinn-channel-flow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pinn-channel-flow
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+      - ./logs:/app/logs
+      - ./openfoam:/app/openfoam
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - PYTHONPATH=/app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - "8888:8888"  # Jupyter
+      - "6006:6006"  # TensorBoard (if needed)
+    command: >
+      bash -c "
+        source /opt/openfoam9/etc/bashrc &&
+        python -m jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      "
+
+  # Service for running OpenFOAM simulations
+  openfoam:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: openfoam-runner
+    volumes:
+      - ./openfoam:/app/openfoam
+      - ./data:/app/data
+    environment:
+      - OMP_NUM_THREADS=4
+    command: >
+      bash -c "
+        source /opt/openfoam9/etc/bashrc &&
+        cd /app/openfoam/channelKEpsilon &&
+        ./run_simulation.sh
+      "
+    profiles:
+      - openfoam
+
+  # Service for PINN training
+  pinn-training:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pinn-training
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+      - ./logs:/app/logs
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - PYTHONPATH=/app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: >
+      python -c "
+      from src import SimulationConfig, PINNRANSModel;
+      config = SimulationConfig();
+      model = PINNRANSModel(config);
+      model.compile_model();
+      model.train_model()
+      "
+    profiles:
+      - training
